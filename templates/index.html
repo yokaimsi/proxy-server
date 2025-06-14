@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YokAi Proxy Server</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/static/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <div class="container mx-auto p-4 flex-grow">
+        <h1 class="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+            YokAi Proxy Server
+        </h1>
+
+        <!-- Request Form -->
+        <form method="POST" action="/proxy" class="bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- URL and Method -->
+                <div>
+                    <label for="url" class="block text-sm font-medium mb-2">Target URL</label>
+                    <input type="text" id="url" name="url" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://api.example.com" value="{{ url if url else '' }}">
+                </div>
+                <div>
+                    <label for="method" class="block text-sm font-medium mb-2">HTTP Method</label>
+                    <select id="method" name="method" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="GET" {% if method == 'GET' %}selected{% endif %}>GET</option>
+                        <option value="POST" {% if method == 'POST' %}selected{% endif %}>POST</option>
+                        <option value="PUT" {% if method == 'PUT' %}selected{% endif %}>PUT</option>
+                        <option value="DELETE" {% if method == 'DELETE' %}selected{% endif %}>DELETE</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Headers -->
+            <div class="mt-4">
+                <label class="block text-sm font-medium mb-2">Headers (JSON)</label>
+                <textarea id="headers" name="headers" rows="4" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='{"Content-Type": "application/json"}'>{{ headers if headers else '' }}</textarea>
+            </div>
+
+            <!-- Body -->
+            <div class="mt-4">
+                <label class="block text-sm font-medium mb-2">Request Body</label>
+                <textarea id="body" name="body" rows="6" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter request body (if applicable)">{{ body if body else '' }}</textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Send Request
+            </button>
+        </form>
+
+        <!-- Response Section -->
+        {% if response %}
+        <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Response</h2>
+            <div class="mb-2"><strong>Status:</strong> {{ response.status if response.status else 'N/A' }}</div>
+            <div class="mb-2"><strong>Headers:</strong><pre>{{ response.headers | tojson(prettyprint=True) if response.headers else '{}' }}</pre></div>
+            <div class="bg-gray-900 p-4 rounded overflow-auto"><strong>Body:</strong><pre>{{ response.body if response.body else 'No response body' }}</pre></div>
+        </div>
+        {% endif %}
+
+        <!-- Error Section -->
+        {% if error %}
+        <div class="bg-red-800 rounded-lg shadow-lg p-6 mt-4">
+            <h2 class="text-2xl font-semibold mb-4 text-red-400">Error</h2>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer class="text-center py-4 bg-gray-800">
+        <p>© 2025 YokAi Proxy Server, Made By YokAi</p>
+    </footer>
+</body>
+</html>

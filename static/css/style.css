@@ -1,0 +1,19 @@
+body {
+    background: linear-gradient(135deg, #1a202c, #2d3748);
+}
+
+textarea, input, select {
+    transition: all 0.3s ease;
+}
+
+textarea:focus, input:focus, select:focus {
+    transform: scale(1.02);
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+.bg-gray-800 {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
