@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 
-DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1383128500176945202/_3Vmqg26318hPmRrsePRPIenPgUkrrH6JDLqWFVb5HcPLv4sefXKjky-L09Z78Mnqhlc"
+DISCORD_WEBHOOK_URL = ""
 
 @app.route('/', methods=['GET'])
 def index():
